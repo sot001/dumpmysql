@@ -2,7 +2,7 @@
 
 # mysql user needs certain privileges to run this file;
 #
-# grant SELECT, LOCK TABLES, reload ON *.* TO 'mysql'@'localhost' IDENTIFIED BY 'dump';
+# grant SELECT, LOCK TABLES, reload ON *.* TO 'dumpuser'@'localhost' IDENTIFIED BY 'dumppassword';
 #
 TODAY=`date '+%Y%m%d%H%M'`
 DUMPDIR=/mysql_dumps
