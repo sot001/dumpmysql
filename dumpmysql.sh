@@ -23,7 +23,7 @@ fi
 
 echo "starting dump at $TODAY" >> $LOGFILE
 echo "----------------------------" >> $LOGFILE
-echo "show databases" | mysql -u mysql -pdump | grep -v Database | while read line
+echo "show databases" | mysql -u dumpuser -pdumppassword | grep -v Database | while read line
 do
 	if [ ! -d $DUMPDIR/$line ]
 	then
@@ -34,9 +34,9 @@ do
 	then
 		# flush and lock tables
 		echo "$line: flushing and locking tables" >> $LOGFILE
-		echo "flush tables with read lock" | mysql -u mysql  -pdump $line 
+		echo "flush tables with read lock" | mysql -u dumpuser  -pdumppassword $line 
 
-		CMD="mysqldump -u mysql -pdump --quick --single-transaction $line"
+		CMD="mysqldump -u dumpuser -pdumppassword --quick --single-transaction $line"
 		OUT="$DUMPDIR/$line/$line.$TODAY.dump"
 		echo "$CMD > $OUT" #>> $LOGFILE
 		$CMD 1> $OUT 2>> $LOGFILE
@@ -54,7 +54,7 @@ do
 
 		# unlock tables
 		echo "$line: dump complete, unlocking tables" >> $LOGFILE
-		echo "unlock tables" | mysql -u mysql -pdump $line
+		echo "unlock tables" | mysql -u dumpuser -pdumppassword $line
 	else
 		echo "skipping $line" >> $LOGFILE
 	fi
